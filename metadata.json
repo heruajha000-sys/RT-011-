@@ -1,0 +1,6 @@
+{
+  "name": "RT 011 / RW 04 - WargaKu Dashboard",
+  "description": "Aplikasi manajemen data warga, keuangan kas RT, statistik demografi, dan administrasi lingkungan RT 011 / RW 04.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

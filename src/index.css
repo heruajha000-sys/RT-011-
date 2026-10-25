@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* --- TAMPILAN DEFAULT (Untuk PC / Laptop) --- */
+.main-layout {
+  display: flex; /* Sidebar dan Chat berdampingan kiri-kanan */
+  flex-direction: row; 
+}
+.sidebar {
+  width: 300px; /* Sidebar pengaturan AI di kiri */
+}
+
+/* --- TAMPILAN OTOMATIS DI ANDROID / HP (Layar di bawah 768px) --- */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column; /* Berubah jadi atas-bawah di Android */
+  }
+  .sidebar {
+    width: 100%; /* Sidebar jadi menu atas atau disembunyikan */
+    height: auto;
+  }
+}
+
+/* Custom scrollbar with yellow thumb matching screenshot */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #eab308;
+  border-radius: 9999px;
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #eab308 transparent;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-surat, #printable-surat * {
+    visibility: visible;
+  }
+  #printable-surat {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 24px;
+    background: white !important;
+    color: black !important;
+  }
+}
