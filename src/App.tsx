@@ -325,7 +325,7 @@ const JENIS_SURAT_OPTIONS = [
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'dash' | 'warga' | 'kk' | 'keuangan' | 'surat' | 'more' | 'mutasi' | 'inventaris' | 'bantuan'>('dash');
+  const [activeTab, setActiveTab] = useState<'dash' | 'warga' | 'kk' | 'keuangan' | 'surat' | 'more' | 'mutasi' | 'inventaris' | 'bantuan' | 'log'>('dash');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
   const [rtNumber, setRtNumber] = useState<string>('011');
   const [rwNumber, setRwNumber] = useState<string>('04');
@@ -3082,10 +3082,9 @@ export default function App() {
 
         {/* MUTASI TAB / VIEW */}
         {activeTab === 'mutasi' && (
-          <div className="space-y-4 animate-fade-in">
-            {/* Header */}
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-black tracking-tight">Riwayat Mutasi</h2>
+          <div className="space-y-4 animate-fade-in pb-12">
+            <div className="flex justify-between items-center pt-1">
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Riwayat Mutasi</h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => window.print()}
@@ -3102,7 +3101,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Search Bar */}
             <div className="relative">
               <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-gray-400" />
               <input
@@ -3125,7 +3123,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Content / Empty State */}
             {mutations.filter(m => m.nama.toLowerCase().includes(mutationSearch.toLowerCase()) || m.nik.includes(mutationSearch)).length === 0 ? (
               <div className={`p-16 rounded-3xl text-center text-gray-500 ${isDarkMode ? 'bg-[#1e1e24]/60' : 'bg-white shadow'}`}>
                 <p className="text-sm">Tidak ada data riwayat.</p>
@@ -3146,13 +3143,31 @@ export default function App() {
                   ))}
               </div>
             )}
+          </div>
+        )}
 
-            {/* Pagination footer */}
-            <div className="flex justify-between items-center pt-4 text-sm text-gray-400">
-              <span>Hal 1</span>
-              <div className="flex space-x-2">
-                <button className={`p-3 rounded-full ${isDarkMode ? 'bg-[#1e1e24]' : 'bg-white shadow'}`}><ChevronRight className="w-5 h-5 rotate-180" /></button>
-                <button className={`p-3 rounded-full ${isDarkMode ? 'bg-[#1e1e24]' : 'bg-white shadow'}`}><ChevronRight className="w-5 h-5" /></button>
+        {activeTab === 'log' && (
+          <div className="space-y-4 animate-fade-in pb-12">
+            <div className="flex justify-between items-center pt-1">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Log Aktivitas</h2>
+                <p className="text-xs text-gray-400">Riwayat penggunaan sistem WargaKu</p>
+              </div>
+              <button 
+                onClick={() => showToast('Log diperbarui')}
+                className="p-3 rounded-2xl bg-[#23252a] border border-gray-800 text-gray-300 hover:text-white transition"
+              >
+                <RotateCw className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="py-24 text-center text-gray-400 bg-[#1c1d22] border border-[#2b2c34] rounded-3xl space-y-3">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-gray-900/50 flex items-center justify-center text-gray-700 border border-gray-800 shadow-inner">
+                 <History className="w-8 h-8" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-bold text-gray-300">Belum Ada Riwayat</p>
+                <p className="text-[11px] text-gray-500 px-10">Aktivitas penting sistem akan tercatat secara otomatis di halaman ini.</p>
               </div>
             </div>
           </div>
@@ -3664,7 +3679,7 @@ export default function App() {
               <button
                 onClick={() => {
                   setShowMoreLainnyaModal(false);
-                  alert('Log Aktivitas Sistem WargaKu');
+                  setActiveTab('log');
                 }}
                 className="flex flex-col items-center space-y-2 group"
               >
@@ -4047,16 +4062,16 @@ export default function App() {
                 </div>
               ) : (
                 <div className="text-center border-b-2 border-black pb-3 mb-4 space-y-0.5 text-black">
-                  <h4 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+                  <h4 className="font-extrabold text-[10px] sm:text-xs uppercase tracking-wider">
                     PEMERINTAH KABUPATEN {suratConfig.kabupaten.toUpperCase()} | KECAMATAN {suratConfig.kecamatan.toUpperCase()}
                   </h4>
-                  <h3 className="font-extrabold text-sm sm:text-base uppercase tracking-wide">
+                  <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wide">
                     PEMERINTAH DESA {suratConfig.kelurahan.toUpperCase()}
                   </h3>
-                  <h2 className="font-black text-base sm:text-lg uppercase tracking-tight">
+                  <h2 className="font-black text-sm sm:text-base uppercase tracking-tight">
                     PENGURUS RT {rtNumber} / RW {rwNumber}
                   </h2>
-                  <p className="text-[10px] sm:text-xs text-gray-800 font-medium leading-snug pt-1">
+                  <p className="text-[9px] sm:text-[10px] text-gray-800 font-medium leading-snug pt-1">
                     Sekretariat: {suratConfig.alamatSekretariat}
                   </p>
                 </div>
@@ -4075,6 +4090,10 @@ export default function App() {
               {/* ISI SURAT */}
               <p className="mb-3 text-justify">
                 Yang bertanda tangan di bawah ini Ketua Rukun Tetangga (RT) {rtNumber} / RW {rwNumber} Kelurahan {suratConfig.kelurahan}, Kecamatan {suratConfig.kecamatan}, {suratConfig.kota}, dengan ini menerangkan bahwa:
+              </p>
+
+              <p className="my-3 text-justify">
+                Surat ini diterbitkan untuk keperluan: <span className="font-bold text-black">{activePreviewLetter.keperluan}</span>.
               </p>
 
               <table className="w-full my-3 text-xs sm:text-sm">
@@ -4124,10 +4143,6 @@ export default function App() {
 
               <p className="my-3 text-justify">
                 Orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami RT {rtNumber} / RW {rwNumber} Kelurahan {suratConfig.kelurahan}. Sepanjang pengetahuan kami, yang bersangkutan berkelakuan baik dan bermasyarakat.
-              </p>
-
-              <p className="my-3 text-justify">
-                Surat ini diterbitkan untuk keperluan: <span className="font-bold text-black">{activePreviewLetter.keperluan}</span>.
               </p>
 
               <p className="my-3 text-justify">
